@@ -3,14 +3,9 @@ import { useState } from "react";
 type View = "Dashboard" | "Demandas" | "Requisitos" | "Produtos e Versões" | "Chamados" | "Conhecimento" | "Indicadores" | "Configurações";
 
 const menu: {label: View; icon: string}[] = [
-  { label: "Dashboard", icon: "⌂" },
-  { label: "Demandas", icon: "▣" },
-  { label: "Requisitos", icon: "✓" },
-  { label: "Produtos e Versões", icon: "▤" },
-  { label: "Chamados", icon: "▣" },
-  { label: "Conhecimento", icon: "▤" },
-  { label: "Indicadores", icon: "▥" },
-  { label: "Configurações", icon: "⚙" },
+  { label: "Dashboard", icon: "⌂" }, { label: "Demandas", icon: "▣" }, { label: "Requisitos", icon: "✓" },
+  { label: "Produtos e Versões", icon: "▤" }, { label: "Chamados", icon: "▣" }, { label: "Conhecimento", icon: "▤" },
+  { label: "Indicadores", icon: "▥" }, { label: "Configurações", icon: "⚙" },
 ];
 
 const recent = [
@@ -31,39 +26,22 @@ const records: Record<Exclude<View, "Dashboard">, { title: string; description: 
 };
 
 function Sidebar({ active, onChange }: { active: View; onChange: (view: View) => void }) {
-  return <aside className="sidebar">
-    <div className="brand">
-      <div className="brand-mark">N</div>
-      <span>NEXUS</span>
-    </div>
-    <nav>{menu.map((item) => <button key={item.label} className={active === item.label ? "nav-item active" : "nav-item"} onClick={() => onChange(item.label)}>
-      <span className="nav-icon">{item.icon}</span><span>{item.label}</span>
-    </button>)}</nav>
-    <div className="sidebar-footer"><div className="mini-mark">N</div><span>Conectando pessoas,<br/>tecnologia e soluções.</span></div>
-  </aside>;
+  return <aside className="sidebar"><div className="brand"><div className="brand-mark">N</div><span>NEXUS</span></div><nav>{menu.map((item) => <button key={item.label} className={active === item.label ? "nav-item active" : "nav-item"} onClick={() => onChange(item.label)}><span className="nav-icon">{item.icon}</span><span>{item.label}</span></button>)}</nav><div className="sidebar-footer"><div className="mini-mark">N</div><span>Conectando pessoas,<br/>tecnologia e soluções.</span></div></aside>;
+}
+
+function NotificationIcon() {
+  return <span className="notification-icon" aria-label="Notificações" title="Notificações"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></svg></span>;
 }
 
 function Header() {
   return <header className="topbar">
-    <div className="top-brand"><div className="top-mark">N</div><div><strong>NEXUS</strong><small>CONEXÃO ENTRE DEMANDA, DESENVOLVIMENTO E SUPORTE</small></div></div>
-    <div className="top-actions"><div className="search">⌕ <span>Pesquisar...</span></div><span className="bell">♧</span><div className="user"><span>Usuário<small>ADMIN</small></span><div className="avatar">U</div></div></div>
+    <div className="top-brand"><div className="top-mark">N</div><div className="top-brand-text"><strong>NEXUS</strong><small>CONEXÃO ENTRE DEMANDA, DESENVOLVIMENTO E SUPORTE</small></div></div>
+    <div className="top-actions"><div className="search">⌕ <span>Pesquisar...</span></div><NotificationIcon/><div className="user"><span>Usuário<small>ADMIN</small></span><div className="avatar">U</div></div></div>
   </header>;
 }
 
 function Dashboard({ onChange }: { onChange: (view: View) => void }) {
-  return <div className="content">
-    <div className="page-heading"><div><h1>Painel de Controle</h1><p>Bem-vindo ao Nexus, aqui está o resumo operacional de hoje.</p></div><button className="primary" onClick={() => onChange("Demandas")}>+ Nova Demanda</button></div>
-    <section className="stats">
-      <Stat title="Total de Demandas" value="124" trend="+12% vs mês anterior" icon="⚑" tone="blue"/>
-      <Stat title="Chamados Abertos" value="15" trend="-8% vs mês anterior" icon="▤" tone="orange"/>
-      <Stat title="Produtos Ativos" value="8" trend="Em 3 ambientes" icon="▰" tone="purple"/>
-      <Stat title="Saúde do Sistema" value="98%" trend="Operacional estável" icon="♥" tone="green"/>
-    </section>
-    <section className="dashboard-grid">
-      <div className="panel trend-panel"><div className="panel-head"><div><h2>Tendência de Demandas</h2><span>Volume de demandas registradas</span></div><small>Últimos 6 meses</small></div><div className="chart"><div className="y-labels"><span>35</span><span>30</span><span>25</span><span>20</span><span>15</span><span>10</span><span>5</span></div><svg viewBox="0 0 600 190" preserveAspectRatio="none"><path d="M0 145 L120 105 L240 125 L360 62 L480 88 L600 30 L600 190 L0 190 Z" fill="rgba(52,112,245,.08)"/><path d="M0 145 L120 105 L240 125 L360 62 L480 88 L600 30" fill="none" stroke="#3470f5" strokeWidth="2.5"/></svg><div className="x-labels"><span>Dez</span><span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span></div></div></div>
-      <div className="panel activity"><div className="panel-head"><div><h2>Atividade Recente</h2><span>Últimas atualizações</span></div></div>{recent.map((item, i) => <div className="activity-item" key={i}><span className={"activity-icon " + item.tone}>{item.icon}</span><div><p>{item.text}</p><small>{item.time} • {item.user}</small></div></div>)}</div>
-    </section>
-  </div>;
+  return <div className="content"><div className="page-heading"><div><h1>Painel de Controle</h1><p>Bem-vindo ao Nexus, aqui está o resumo operacional de hoje.</p></div><button className="primary" onClick={() => onChange("Demandas")}>+ Nova Demanda</button></div><section className="stats"><Stat title="Total de Demandas" value="124" trend="+12% vs mês anterior" icon="⚑" tone="blue"/><Stat title="Chamados Abertos" value="15" trend="-8% vs mês anterior" icon="▤" tone="orange"/><Stat title="Produtos Ativos" value="8" trend="Em 3 ambientes" icon="▰" tone="purple"/><Stat title="Saúde do Sistema" value="98%" trend="Operacional estável" icon="♥" tone="green"/></section><section className="dashboard-grid"><div className="panel trend-panel"><div className="panel-head"><div><h2>Tendência de Demandas</h2><span>Volume de demandas registradas</span></div><small>Últimos 6 meses</small></div><div className="chart"><div className="y-labels"><span>35</span><span>30</span><span>25</span><span>20</span><span>15</span><span>10</span><span>5</span></div><svg viewBox="0 0 600 190" preserveAspectRatio="none"><path d="M0 145 L120 105 L240 125 L360 62 L480 88 L600 30 L600 190 L0 190 Z" fill="rgba(52,112,245,.08)"/><path d="M0 145 L120 105 L240 125 L360 62 L480 88 L600 30" fill="none" stroke="#3470f5" strokeWidth="2.5"/></svg><div className="x-labels"><span>Dez</span><span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span></div></div></div><div className="panel activity"><div className="panel-head"><div><h2>Atividade Recente</h2><span>Últimas atualizações</span></div></div>{recent.map((item, i) => <div className="activity-item" key={i}><span className={"activity-icon " + item.tone}>{item.icon}</span><div><p>{item.text}</p><small>{item.time} • {item.user}</small></div></div>)}</div></section></div>;
 }
 
 function Stat({ title, value, trend, icon, tone }: { title: string; value: string; trend: string; icon: string; tone: string }) {
